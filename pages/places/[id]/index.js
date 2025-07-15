@@ -31,17 +31,22 @@ const StyledLocationLink = styled(StyledLink)`
 `;
 
 export default function DetailsPage() {
-  
   const router = useRouter();
   const { isReady } = router;
   const { id } = router.query;
 
   const { data: place, isLoading, error } = useSWR(`/api/places/${id}`);
-  
+
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
 
   async function deletePlace() {
     console.log("Deleting place ...");
+    const response = await fetch(`/api/places/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      router.push("/");
+    }
   }
 
   return (
