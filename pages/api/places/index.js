@@ -20,8 +20,8 @@ export default async function handler(request, response) {
 
       const place = request.body;
       place._id = uid();
-      place.image =
-        "https://images.unsplash.com/photo-1473615695634-d284ec918736?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2128&q=80";
+      // place.image =
+      // "https://images.unsplash.com/photo-1473615695634-d284ec918736?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2128&q=80";
       console.log("place", place);
       await Place.create(place);
 
