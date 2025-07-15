@@ -11,6 +11,6 @@ const placeSchema = new Schema({
   mapURL: { type: String, required: true },
 });
 
-const Place = mongoose.models.place || mongoose.model("Place", placeSchema);
+const Place = mongoose.models.Place || mongoose.model("Place", placeSchema);
 
 export default Place;
