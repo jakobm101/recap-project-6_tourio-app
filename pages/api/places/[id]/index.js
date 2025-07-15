@@ -1,9 +1,10 @@
-import { places } from "../../../../lib/db.js";
+import dbConnect from "@/db/connect";
+import Place from "@/db/Schema/Place";
 
-export default function handler(request, response) {
+export default async function handler(request, response) {
   const { id } = request.query;
-
-  const place = places.find((place) => place.id === id);
+  await dbConnect();
+  const place = Place.findById(id);
 
   if (!place) {
     response.status(404).json({ status: "Not found" });
