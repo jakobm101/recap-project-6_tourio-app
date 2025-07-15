@@ -1,15 +1,14 @@
-// Lots of logging added for debugging
-// Make sure to call this ASYNC
+// Next.js
+// db/connect.js
 
 import mongoose from "mongoose";
 
-mongoose.set("debug", true); // █ zeigt alle Mongo-Queries in der Konsole
-
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI; // Beware all whitespaces and quotationmarks.
+// MONOGODB_URI=______
 
 if (!MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
+    "Please define the MONGODB_URI environment variable inside .env.local \n Beware all whitespaces and quotationmarks."
   );
 }
 
@@ -31,16 +30,12 @@ async function dbConnect() {
 
   if (!cached.promise) {
     const opts = {
-        bufferCommands: false,
+      bufferCommands: false,
     };
 
-    cached.promise = mongoose
-      .connect(MONGODB_URI, opts)
-      .then((mongoose) => {
-        console.log("✅ Mongoose connected");
-        return mongoose;
-      })
-      .catch((err) => console.error("❌ Mongoose connection error:", err));
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
   }
 
   try {
@@ -49,14 +44,6 @@ async function dbConnect() {
     cached.promise = null;
     throw e;
   }
-
-  // Events loggen – sehr präzise Kontrolle:
-  const db = mongoose.connection;
-
-  db.on("connected", () => console.log("🔌 connected to MongoDB"));
-  db.on("error", (err) => console.error("🔥 connection error:", err));
-  db.on("disconnected", () => console.warn("❗ disconnected from MongoDB"));
-  db.on("reconnected", () => console.log("🔁 reconnected to MongoDB"));
 
   return cached.conn;
 }
